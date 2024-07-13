@@ -14,7 +14,7 @@ RUN GO111MODULE=on go mod vendor
 RUN CGO_ENABLED=0 GOOS=$OS GOARCH=$ARCH go build -ldflags '-s -w' -o binary ./
 
 # Main image
-# Using golang in case needed - can be switched to alpine if needed
+# Using golang in case needed - can be switched to alpine later
 FROM golang:1.21.5-alpine3.17
 
 LABEL name="pihole-exporter"
