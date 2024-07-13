@@ -2,13 +2,18 @@
 
 # Notes
 # 
-# - Add check to test PIHOLE_HOSTNAME is valid IP
-#   which will skip dns resolution
+# - IP Regex isn't perfect and lets through >255,
+#   but going for simple here
 # - Needs to be updated for multiple hosts used
 
-# Manually resolve hostname
-PIHOLE_IP=$(dig +short $PIHOLE_HOSTNAME)
-echo "$PIHOLE_HOSTNAME resolved to: $PIHOLE_IP"
+if [[ "$PIHOLE_HOSTNAME" =~ '^([0-9]{1,3}\.){3}[0-9]{1,3}$' ]]; then
+    echo "PIHOLE_HOSTNAME is (probably) a valid IP"
+    PIHOLE_IP=$PIHOLE_HOSTNAME
+else
+  echo "PIHOLE_HOSTNAME is not a valid IP. Manually resolving..."
+  PIHOLE_IP=$(dig +short $PIHOLE_HOSTNAME)
+  echo "$PIHOLE_HOSTNAME resolved to: $PIHOLE_IP"
+fi
 
 echo "Starting Pihole Exporter"
 ./pihole-exporter \
