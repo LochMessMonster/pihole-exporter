@@ -1,12 +1,10 @@
 #!/bin/sh
 
 # Notes
-# 
-# - IP Regex isn't perfect and lets through >255,
-#   but going for simple here
 # - Needs to be updated for multiple hosts used
 
-if [[ "$PIHOLE_HOSTNAME" =~ '^([0-9]{1,3}\.){3}[0-9]{1,3}$' ]]; then
+#  IP Regex isn't perfect and lets through >255
+if [[ $PIHOLE_HOSTNAME =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]]; then
     echo "PIHOLE_HOSTNAME is (probably) a valid IP"
     PIHOLE_IP=$PIHOLE_HOSTNAME
 else
